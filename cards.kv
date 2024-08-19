@@ -1,0 +1,155 @@
+#:kivy 2.0.0
+<MainWidget>:
+  canvas.before:
+    Color:
+      rgba: 255/255, 122/255, 0, 1#23/255, 185/255, 223/255, 1
+    Rectangle:
+      pos: 0 + (root.width - root.width * 0.96), 0 + (root.height - root.height * 0.96)
+      size: root.width * 0.92, root.height * 0.92
+    Color:
+      rgba: 1, 1, 1, 1
+    Rectangle:
+      pos: 0 + (root.width - root.width * 0.90), 0 + (root.height - root.height * 0.92)
+      size: root.width * 0.80, root.height * 0.84
+  Label:
+    id: lab1
+    text: root.letter_a
+    font_size: root.height * 0.05#0.15
+    bold: "true"
+    color: 255/255, 122/255, 0/255, 1
+    pos: root.width / 2 - 220 , root.height / 2 + 250
+
+  Label:
+    id: lab2
+    text: root.letter_b
+    font_size: root.height * 0.05#0.15
+    bold: "true"
+    color: 255/255, 122/255, 0/255, 1
+    pos: root.width / 2 + 110, root.height / 2 + 250
+
+  Label:
+    id: lab3
+    text: root.word
+    font_size: root.height * 0.1 - len(root.word) * 4
+    bold: "true"
+    color: 255/255, 122/255, 0/255, 1
+    pos: root.width / 2 - 50, root.height / 2 + 250
+  
+  Image:
+    id: picture
+    source: root.picture_link
+    pos: root.width / 2 - self.width / 2, root.height / 2 - self.height / 2
+    size: '200dp','200dp'
+
+  
+  BoxLayout:
+    spacing: '8dp'
+    pos: root.width / 2 - root.width * 0.375, 0 + (root.height - root.height * 0.9)
+    size: root.width * 0.75, root.height * 0.05
+    Button:
+      text: root.menu_traning
+      font_size: 15#35
+      bold: "true"
+      background_color: 255/255, 122/255, 0, 1
+      background_normal: ""
+      on_press: root.start_traning()
+    Button:
+      text: root.menu_open
+      font_size: 15#35
+      bold: "true"
+      background_color: 255/255, 122/255, 0, 1
+      background_normal: ""
+      on_press: root.open_card()
+    Button:
+      text: 'СБРОС'
+      font_size: 15#35
+      bold: "true"
+      background_color: 255/255, 122/255, 0, 1
+      background_normal: ""
+      on_press: root.reset()
+  BoxLayout:
+    id: level
+    spacing: '8dp'
+    # pos: root.width / 2 - root.width * 0.3, 0 + (root.height - root.height * 0.825)
+    # size: root.width * 0.6, root.height * 0.05
+    pos: root.width / 2 - root.width * 0.375, 0 + (root.height - root.height * 0.835)
+    size: root.width * 0.75, root.height * 0.05
+    Button:
+      text: "СНОВА"
+      font_size: 15#35
+      bold: "true"
+      background_color: 23/255, 185/255, 223/255, 1
+      background_normal: ""
+    Button:
+      text: "ЛЕГКО"
+      font_size: 15#35
+      bold: "true"
+      background_color: 69/255, 179/255, 113/255, 1
+      background_normal: ""
+
+    Button:
+      text: "ХОРОШО"
+      font_size: 15#35
+      bold: "true"
+      background_color: 1, 165/255, 0, 1
+      background_normal: ""
+    Button:
+      text: "СЛОЖНО"
+      font_size: 15#35
+      bold: "true"
+      background_color: 235/255, 99/255, 71/255, 1
+      background_normal: ""
+
+  # Button:
+  #   background_normal: "red_pushed.png"
+  #   background_down: "red_pushed-2.png"
+
+
+
+
+  Slider:
+    id: sld_1
+    min: 0
+    max: 21
+    value: root.num_a
+    orientation: "vertical"
+    pos: 0 + (root.width - root.width * 0.935), 0 + (root.height - root.height * 0.835)
+    size: root.width * 0.2, root.height * 0.4
+    step: 1
+    value_track: "true"
+    value_track_color: 255/255, 122/255, 0, 1#23/255, 185/255, 223/255, 1
+    cursor_image: "images/slider.png"
+    on_value: root.slide_A(self.value)
+
+  Slider:
+    id: sld_2
+    min: 0
+    max: 21
+    value: root.num_b
+    orientation: "vertical"
+    pos: root.width - root.width * 0.265, 0 + (root.height - root.height * 0.835)
+    size: root.width * 0.2, root.height * 0.4
+    step: 1
+    value_track: "true"
+    value_track_color: 255/255, 122/255, 0, 1#23/255, 185/255, 223/255, 1
+    cursor_image: "images/slider.png"
+    on_value: root.slide_B(self.value)
+
+
+  ProgressBar:
+    pos: 0 + root.width * 0.05, root.height - root.height * 0.05
+    size: root.width * 0.9, root.height * 0.05
+    value: root.bar_value
+    max: 10
+    canvas:
+      BorderImage:
+        border: (1, 1, 1, 1)
+        pos: self.x, self.center_y - 2
+        size: self.width, 4
+        source: 'images/white.png'
+      BorderImage:
+        border: [int(min(self.width * (self.value / float(self.max)) if self.max else 1, 6))] * 4
+        pos: self.x, self.center_y - 2
+        size: self.width * (self.value / float(self.max)) if self.max else 4, 4
+        source: 'images/background.png'
+  

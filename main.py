@@ -7,6 +7,7 @@ from kivy.uix.widget import Widget
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.properties import StringProperty, ObjectProperty
 from random import randint
+from crud import add_task
 
 
 class MainWidget(Widget):
@@ -26,6 +27,9 @@ class MainWidget(Widget):
   picture_link = StringProperty("")
   traning_on = False
   count = 0
+  letter_num_a = 21
+  letter_num_b = 21
+
 
   def __init__(self, **kwargs):
     super(MainWidget, self).__init__(**kwargs)
@@ -69,25 +73,60 @@ class MainWidget(Widget):
         self.remove_widget(self.ids.level)
       
 
-  def start_traning(self):
-    self.traning_on = True
-    random_num_a = randint(0, 21)
-    random_num_b = randint(0, 21)
-    self.letter_a = self.card_letter_list[random_num_a]
-    self.letter_b = self.card_letter_list[random_num_b]
-    self.num_a = random_num_a
-    self.num_b = random_num_b
-    self.remove_widget(self.ids.sld_1)
-    self.remove_widget(self.ids.sld_2)
+  # def start_traning(self):
+  #   self.traning_on = True
+  #   random_num_a = randint(0, 21)
+  #   random_num_b = randint(0, 21)
+  #   self.letter_a = self.card_letter_list[random_num_a]
+  #   self.letter_b = self.card_letter_list[random_num_b]
+  #   self.num_a = random_num_a
+  #   self.num_b = random_num_b
+  #   self.remove_widget(self.ids.sld_1)
+  #   self.remove_widget(self.ids.sld_2)
+  #   if self.count < 10:
+  #     self.count += 1
+  #     self.bar_value += 1
+  #   else:
+  #     self.count = 0
+  #     self.bar_value = 0
+  #   self.menu_traning = f" {self.count} / 10"
+  #   if self.menu_open == "ЗАКРЫТЬ":
+  #     self.word = ""
+  #     self.picture_link = ""
+  #     self.add_widget(self.ids.lab1)
+  #     self.add_widget(self.ids.lab2)
+  #     self.remove_widget(self.ids.level)
+  #     self.remove_widget(self.ids.picture)
+  #     self.menu_open = "ОТКРЫТЬ"
 
 
-    if self.count < 10:
+  def count_index_a_b(self):
+    if self.letter_num_b > 0:
+      self.letter_num_b -= 1
+    else:
+      self.letter_num_b = 21
+      self.letter_num_a -= 1
+    if self.letter_a == 0:
+      self.letter_a = 21
+  
+  def counter(self):
+    if self.count < 21:
       self.count += 1
       self.bar_value += 1
     else:
       self.count = 0
       self.bar_value = 0
-    self.menu_traning = f" {self.count} / 10"
+    self.menu_traning = f" {self.count} / 22"
+
+
+  def start_traning(self):
+    self.traning_on = True
+    self.letter_a = self.card_letter_list[self.letter_num_a]
+    self.letter_b = self.card_letter_list[self.letter_num_b]
+    self.count_index_a_b()
+    self.counter()
+    self.remove_widget(self.ids.sld_1)
+    self.remove_widget(self.ids.sld_2)
     if self.menu_open == "ЗАКРЫТЬ":
       self.word = ""
       self.picture_link = ""
@@ -96,9 +135,36 @@ class MainWidget(Widget):
       self.remove_widget(self.ids.level)
       self.remove_widget(self.ids.picture)
       self.menu_open = "ОТКРЫТЬ"
+  
+  def rating_word(self, lelel):
+    add_task(self.word, lelel)
+    self.remove_widget(self.ids.level)
+
     
 
+  # def reset(self):
+  #   if self.traning_on and self.menu_open == "ЗАКРЫТЬ":
+  #     self.menu_open = "ОТКРЫТЬ"
+  #     self.word = ""
+  #     self.picture_link = ""
+  #     self.add_widget(self.ids.lab1)
+  #     self.add_widget(self.ids.lab2)
+  #   if self.traning_on:
+  #     self.add_widget(self.ids.sld_1)
+  #     self.add_widget(self.ids.sld_2)
+
+  #   self.bar_value = 0
+  #   self.traning_on = False
+  #   self.menu_traning = "ТРЕНИРОВКА"
+  #   self.count = 0
+  #   self.remove_widget(self.ids.level)
+  #   self.remove_widget(self.ids.picture)
   def reset(self):
+    self.letter_num_a = 21
+    self.letter_num_b = 21
+    self.letter_a = self.card_letter_list[self.letter_num_a]
+    self.letter_b = self.card_letter_list[self.letter_num_b]
+
     if self.traning_on and self.menu_open == "ЗАКРЫТЬ":
       self.menu_open = "ОТКРЫТЬ"
       self.word = ""

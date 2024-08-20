@@ -14,7 +14,7 @@
   Label:
     id: lab1
     text: root.letter_a
-    font_size: root.height * 0.05#0.15
+    font_size: root.height * 0.15
     bold: "true"
     color: 255/255, 122/255, 0/255, 1
     pos: root.width / 2 - 220 , root.height / 2 + 250
@@ -22,7 +22,7 @@
   Label:
     id: lab2
     text: root.letter_b
-    font_size: root.height * 0.05#0.15
+    font_size: root.height * 0.15
     bold: "true"
     color: 255/255, 122/255, 0/255, 1
     pos: root.width / 2 + 110, root.height / 2 + 250
@@ -38,7 +38,7 @@
   Image:
     id: picture
     source: root.picture_link
-    pos: root.width / 2 - self.width / 2, root.height / 2 - self.height / 2
+    pos: root.width / 2 - self.width / 2, root.height / 2 - self.height
     size: '200dp','200dp'
 
   
@@ -48,21 +48,21 @@
     size: root.width * 0.75, root.height * 0.05
     Button:
       text: root.menu_traning
-      font_size: 15#35
+      font_size: 35
       bold: "true"
       background_color: 255/255, 122/255, 0, 1
       background_normal: ""
       on_press: root.start_traning()
     Button:
       text: root.menu_open
-      font_size: 15#35
+      font_size: 35
       bold: "true"
       background_color: 255/255, 122/255, 0, 1
       background_normal: ""
       on_press: root.open_card()
     Button:
       text: 'СБРОС'
-      font_size: 15#35
+      font_size: 35
       bold: "true"
       background_color: 255/255, 122/255, 0, 1
       background_normal: ""
@@ -70,35 +70,41 @@
   BoxLayout:
     id: level
     spacing: '8dp'
-    # pos: root.width / 2 - root.width * 0.3, 0 + (root.height - root.height * 0.825)
-    # size: root.width * 0.6, root.height * 0.05
-    pos: root.width / 2 - root.width * 0.375, 0 + (root.height - root.height * 0.835)
+    pos: root.width / 2 - root.width * 0.375, 0 + (root.height - root.height * 0.825)
     size: root.width * 0.75, root.height * 0.05
+    # pos: root.width / 2 - root.width * 0.375, 0 + (root.height - root.height * 0.835)
+    # size: root.width * 0.75, root.height * 0.05
     Button:
       text: "СНОВА"
-      font_size: 15#35
+      font_size: 35
       bold: "true"
       background_color: 23/255, 185/255, 223/255, 1
       background_normal: ""
+      on_press: root.rating_word(self.text)
     Button:
       text: "ЛЕГКО"
-      font_size: 15#35
+      font_size: 35
       bold: "true"
       background_color: 69/255, 179/255, 113/255, 1
       background_normal: ""
+      on_press: root.rating_word(self.text)
 
     Button:
       text: "ХОРОШО"
-      font_size: 15#35
+      font_size: 35
       bold: "true"
       background_color: 1, 165/255, 0, 1
       background_normal: ""
+      on_press: root.rating_word(self.text)
+
     Button:
       text: "СЛОЖНО"
-      font_size: 15#35
+      font_size: 35
       bold: "true"
       background_color: 235/255, 99/255, 71/255, 1
       background_normal: ""
+      on_press: root.rating_word(self.text)
+
 
   # Button:
   #   background_normal: "red_pushed.png"
@@ -118,7 +124,7 @@
     step: 1
     value_track: "true"
     value_track_color: 255/255, 122/255, 0, 1#23/255, 185/255, 223/255, 1
-    cursor_image: "images/slider.png"
+    cursor_image: "images/slider1.png"
     on_value: root.slide_A(self.value)
 
   Slider:
@@ -132,7 +138,7 @@
     step: 1
     value_track: "true"
     value_track_color: 255/255, 122/255, 0, 1#23/255, 185/255, 223/255, 1
-    cursor_image: "images/slider.png"
+    cursor_image: "images/slider1.png"
     on_value: root.slide_B(self.value)
 
 

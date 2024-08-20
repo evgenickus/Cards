@@ -8,3 +8,6 @@ def add_task(word, level):
   # (word, level, time TIME, status)
   con.commit()
 
+def get_words():
+  cur.execute("SELECT * FROM default_cards")
+  print(cur.fetchall())

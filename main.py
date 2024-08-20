@@ -7,7 +7,7 @@ from kivy.uix.widget import Widget
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.properties import StringProperty, ObjectProperty
 from random import randint
-from crud import add_task
+import crud
 
 
 class MainWidget(Widget):
@@ -135,12 +135,15 @@ class MainWidget(Widget):
       self.remove_widget(self.ids.level)
       self.remove_widget(self.ids.picture)
       self.menu_open = "ОТКРЫТЬ"
+    res = crud.get_words()
+    print(res)
+    
   
   def rating_word(self, lelel):
-    add_task(self.word, lelel)
+    crud.add_task(self.word, lelel)
     self.remove_widget(self.ids.level)
 
-    
+  
 
   # def reset(self):
   #   if self.traning_on and self.menu_open == "ЗАКРЫТЬ":

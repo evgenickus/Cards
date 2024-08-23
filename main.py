@@ -135,8 +135,6 @@ class MainWidget(Widget):
       self.remove_widget(self.ids.level)
       self.remove_widget(self.ids.picture)
       self.menu_open = "ОТКРЫТЬ"
-    res = crud.get_words()
-    print(res)
     
   
   def rating_word(self, lelel):

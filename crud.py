@@ -10,4 +10,4 @@ def add_task(word, level):
 
 def get_words():
   cur.execute("SELECT * FROM default_cards")
-  print(cur.fetchall())
+  return cur.fetchall()

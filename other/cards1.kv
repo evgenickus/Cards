@@ -25,6 +25,8 @@
 
 <MainWidget>:
   Widget:
+    but_open: but_open.__self__
+    picture:picture.__self__
     id: main_widget
     canvas.before:
       Color:
@@ -45,7 +47,7 @@
     MenuButton:
       text: "ВЕРНУТЬСЯ В МЕНЮ"
       pos: root.width / 2 - self.width / 2, root.height - self.height
-      on_press: root.manager.current = "menu"; root.reset()
+      on_press: root.manager.current = "menu"#; root.reset()
     
 
     Label:
@@ -105,39 +107,40 @@
       on_press: root.open_card()
     
     BoxLayout:
-      id: level
+      id: box_level
+      level: level.__self__
       spacing: '8dp'
       pos: root.width / 2 - root.width * 0.375, 0 + (root.height - root.height * 0.825)
       size: root.width * 0.75, root.height * 0.05
 
       Button:
-        # id: level
+        id: level
         text: "СНОВА"
         font_size: 35
         bold: "true"
         background_color: 23/255, 185/255, 223/255, 1
         background_normal: ""
-      # on_press: root.rating_word(self.text)
+        on_press: root.rating_word(self.text)
       Button:
         text: "ЛЕГКО"
         font_size: 35
         bold: "true"
         background_color: 69/255, 179/255, 113/255, 1
         background_normal: ""
-        # on_press: root.rating_word(self.text)
+        on_press: root.rating_word(self.text)
 
-      # Button:
-      #   text: "ХОРОШО"
-      #   font_size: 35
-      #   bold: "true"
-      #   background_color: 1, 165/255, 0, 1
-      #   background_normal: ""
-      #   # on_press: root.rating_word(self.text)
+      Button:
+        text: "ХОРОШО"
+        font_size: 35
+        bold: "true"
+        background_color: 1, 165/255, 0, 1
+        background_normal: ""
+        on_press: root.rating_word(self.text)
 
-      # Button:
-      #   text: "СЛОЖНО"
-      #   font_size: 35
-      #   bold: "true"
-      #   background_color: 235/255, 99/255, 71/255, 1
-      #   background_normal: ""
-      # # on_press: root.rating_word(self.text)
+      Button:
+        text: "СЛОЖНО"
+        font_size: 35
+        bold: "true"
+        background_color: 235/255, 99/255, 71/255, 1
+        background_normal: ""
+        on_press: root.rating_word(self.text)

@@ -18,18 +18,11 @@ class MainWidget(Screen):
 
   def __init__(self, **kwargs):
     super(MainWidget, self).__init__(**kwargs)
-    self.ids.main_widget.remove_widget(self.ids.picture)
-    self.ids.main_widget.remove_widget(self.ids.level)
+    self.ids.main_widget.remove_widget(self.ids.box_level)
 
-  def reset(self):
-    self.ids.main_widget.remove_widget(self.ids.level)
-    self.ids.main_widget.remove_widget(self.ids.picture)
-    self.word = ""
-    # self.ids.main_widget.add_widget(self.ids.lab1)
-    # self.ids.main_widget.add_widget(self.ids.lab2)
-    # self.ids.main_widget.add_widget(self.ids.but_open)
-
-
+  def rating_word(self, rating):
+    self.reset()
+    print(rating)
 
   def find_word(self):
     tempory_word_list = []
@@ -41,12 +34,23 @@ class MainWidget(Screen):
         self.word = word
         self.picture_link = f"../images/{str(self.words_list.index(word)+1)}.jpg"
 
+  def reset(self):
+    self.ids.main_widget.add_widget(self.ids.lab1)
+    self.ids.main_widget.add_widget(self.ids.lab2)
+    self.ids.main_widget.remove_widget(self.ids.box_level)
+
+    self.word = ""
+    self.picture_link = ""
+
+
+
   def open_card(self):
     self.ids.main_widget.remove_widget(self.ids.lab1)
     self.ids.main_widget.remove_widget(self.ids.lab2)
-    self.ids.main_widget.remove_widget(self.ids.but_open)
-    self.ids.main_widget.add_widget(self.ids.picture)
-    self.ids.main_widget.add_widget(self.ids.level)
+    self.ids.main_widget.add_widget(self.ids.box_level)
+    # self.ids.main_widget.remove_widget(self.ids.but_open)
+    # self.ids.main_widget.add_widget(self.ids.picture)
+    # self.ids.main_widget.add_widget(self.ids.level.ids.again)
 
     # self.add_widget(self.ids.level)
     self.find_word()
@@ -59,6 +63,7 @@ class MainWidget(Screen):
     #   self.add_widget(self.ids.lab2)
     #   if self.traning_on:
     #     self.remove_widget(self.ids.level)
+
 
 
 class Cards1(App):

@@ -1,33 +1,35 @@
+<MenuButton@Button>:
+  padding: ('10dp', '5dp', '10dp', '5dp')
+  size: self.texture_size
+  font_size: 20
+  bold: "true"
+  background_color: app.main_color
+  background_normal: ""
+
 <Menu>:
   Widget:
     canvas:
       Rectangle:
-        source: "../images/cover.png"
         size: root.size
         pos: root.pos
-      # Rectangle:
-      #   size: root.width * 0.5, root.height * 0.75
-      #   pos: root.width / 2 - self.width / 4, root.height / 6
-
-    Button:
-      padding: ('10dp', '5dp', '10dp', '5dp')
-      pos: root.width / 2 - self.width / 2, root.height * 0.9
-      size: self.texture_size
+    Image:
+      source: "../images/cover.png"
+      allow_stretch: True
+      # keep_ratio: False
+      size: root.size
+      pos: root.pos
+    MenuButton:
       text: "НАЧАТЬ ТРЕНИРОВКУ"
-      font_size: 20
-      bold: "true"
-      background_color: app.main_color
-      background_normal: ""
+      pos: root.width / 2 - self.width / 2, root.height - self.height
       on_press: root.manager.current = "main"
 
 <MainWidget>:
   Widget:
+    id: main_widget
     canvas.before:
-
-      # Color:
-      #   rgba: 1, 1, 1, 1
+      Color:
+        rgba: 1, 1, 1, 1
       Rectangle:
-        source: "../images/cover.png"
         size: root.size
         pos: root.pos
       Color:
@@ -40,13 +42,102 @@
       Rectangle:
         pos: 0 + (root.width - root.width * 0.90), 0 + (root.height - root.height * 0.92)
         size: root.width * 0.80, root.height * 0.84
-    Button:
-      padding: ('10dp', '5dp', '10dp', '5dp')
-      pos: root.width / 2 - self.width / 2, root.height * 0.9
-      size: self.texture_size
+    MenuButton:
       text: "ВЕРНУТЬСЯ В МЕНЮ"
-      font_size: 20
+      pos: root.width / 2 - self.width / 2, root.height - self.height
+      on_press: root.manager.current = "menu"; root.reset()
+    
+
+    Label:
+      id: lab1
+      font_size: root.height * 0.15
+      text: root.letter_a
       bold: "true"
-      background_color: app.main_color
-      background_normal: ""
-      on_press: root.manager.current = "menu"
+      color: app.main_color
+      pos: root.width / 2 - self.width, root.height / 2
+      # canvas.before:
+      #   Color:
+      #     rgba: 0, 0, 1, .5
+      #   Rectangle:
+      #     size: self.size
+      #     pos: self.pos
+
+    Label:
+      id: lab2
+      font_size: root.height * 0.15
+      text: root.letter_b
+      bold: "true"
+      color: app.main_color
+      pos: root.width / 2, root.height / 2
+      # canvas.before:
+      #   Color:
+      #     rgba: 0, 1, 0, .5
+      #   Rectangle:
+      #     size: self.size
+      #     pos: self.pos
+
+      
+
+    Label:
+      id: lab3
+      font_size: root.height * 0.15
+      text: root.word
+      bold: "true"
+      color: app.main_color
+      pos: root.width / 2 - self.width / 2, root.height / 2
+      # canvas.before:
+      #   Color:
+      #     rgba: 1, 0, 0, .5
+      #   Rectangle:
+      #     size: self.size
+      #     pos: self.pos
+    
+    Image:
+      id: picture
+      source: root.picture_link
+      pos: root.width / 2 - self.width / 2, root.height / 2 - self.height
+      size: '200dp','200dp'
+
+    MenuButton:
+      id: but_open
+      text: "ОТКРЫТЬ"
+      pos: root.width / 2 - self.width / 2, 0
+      on_press: root.open_card()
+    
+    BoxLayout:
+      id: level
+      spacing: '8dp'
+      pos: root.width / 2 - root.width * 0.375, 0 + (root.height - root.height * 0.825)
+      size: root.width * 0.75, root.height * 0.05
+
+      Button:
+        # id: level
+        text: "СНОВА"
+        font_size: 35
+        bold: "true"
+        background_color: 23/255, 185/255, 223/255, 1
+        background_normal: ""
+      # on_press: root.rating_word(self.text)
+      Button:
+        text: "ЛЕГКО"
+        font_size: 35
+        bold: "true"
+        background_color: 69/255, 179/255, 113/255, 1
+        background_normal: ""
+        # on_press: root.rating_word(self.text)
+
+      # Button:
+      #   text: "ХОРОШО"
+      #   font_size: 35
+      #   bold: "true"
+      #   background_color: 1, 165/255, 0, 1
+      #   background_normal: ""
+      #   # on_press: root.rating_word(self.text)
+
+      # Button:
+      #   text: "СЛОЖНО"
+      #   font_size: 35
+      #   bold: "true"
+      #   background_color: 235/255, 99/255, 71/255, 1
+      #   background_normal: ""
+      # # on_press: root.rating_word(self.text)

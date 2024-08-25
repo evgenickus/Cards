@@ -1,5 +1,5 @@
 from kivy.app import App
-from kivy.properties import ColorProperty, StringProperty
+from kivy.properties import ColorProperty, StringProperty, ObjectProperty, NumericProperty
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 
 
@@ -14,7 +14,15 @@ class MainWidget(Screen):
   letter_num_b = 21
   letter_a = StringProperty(card_letter_list[letter_num_a])
   letter_b = StringProperty(card_letter_list[letter_num_b])
-  word = StringProperty('')
+  underline_cards_counter = ObjectProperty(False)
+  underline_new_cards_counter = ObjectProperty(False)
+  underline_repeat_cards_counter = ObjectProperty(False)
+
+  word = StringProperty("")
+  cards_counter = StringProperty("20")
+  new_cards_counter = StringProperty("0")
+  repeat_cards_counter = StringProperty("0")
+
   picture_link = StringProperty("")
 
 
@@ -33,7 +41,7 @@ class MainWidget(Screen):
         tempory_word_list.append(word)
     for word in tempory_word_list:
       if self.letter_b == word[2]:
-        self.word = f"[color=0000ff][u]{word[0]}[/u][/color]{word[1].lower()}[color=00ff00][u]{word[2]}[/u][/color]{word[3:].lower()}"
+        self.word = f"[color=008eff][u]{word[0]}[/u][/color]{word[1].lower()}[color=008eff][u]{word[2]}[/u][/color]{word[3:].lower()}"
         self.picture_link = f"../images/{str(self.words_list.index(word)+1)}.jpg"
     
 
@@ -44,6 +52,11 @@ class MainWidget(Screen):
     self.ids.main_widget.remove_widget(self.ids.box_level)
     self.word = ""
     self.picture_link = ""
+
+  def count_cards_counter(self):
+    count = int(self.cards_counter) - 1
+    self.cards_counter = str(count)
+    self.underline_cards_counter = True
 
   def count_index_a_b(self):
     if self.letter_num_b > 0:
@@ -61,6 +74,7 @@ class MainWidget(Screen):
     self.ids.main_widget.add_widget(self.ids.box_level)
     self.find_word()
     self.count_index_a_b()
+    self.count_cards_counter()
     self.letter_a = self.card_letter_list[self.letter_num_a]
     self.letter_b = self.card_letter_list[self.letter_num_b]
 

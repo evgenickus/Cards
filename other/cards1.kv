@@ -5,8 +5,13 @@
   bold: "true"
   color: app.main_color
   background_color: 1, 1, 1, 0
-  # background_color: app.main_color
   background_normal: ""
+<CountLabel@Label>:
+  font_size: 25
+  bold: "true"
+  padding: ('10dp', '5dp', '10dp', '10dp')
+  pos: self.pos
+  size: self.texture_size
 
 <Menu>:
   Widget:
@@ -29,25 +34,14 @@
 <MainWidget>:
   Widget:
     box_level: box_level.__self__
-    # but_open: but_open.__self__
-    # picture: picture.__self__
+    box_count: box_count.__self__
     id: main_widget
     canvas.before:
       Color:
         rgba: 1, 1, 1, 1
       Rectangle:
         size: root.size
-      #   pos: root.pos
-      # Color:
-      #   rgba: app.main_color
-      # Rectangle:
-      #   pos: 0 + (root.width - root.width * 0.96), 0 + (root.height - root.height * 0.96)
-      #   size: root.width * 0.92, root.height * 0.92
-      # Color:
-      #   rgba: 1, 1, 1, 1
-      # Rectangle:
-      #   pos: 0 + (root.width - root.width * 0.90), 0 + (root.height - root.height * 0.92)
-      #   size: root.width * 0.80, root.height * 0.84
+
     MenuButton:
       id: back_menu
       text: "ВЕРНУТЬСЯ В МЕНЮ"
@@ -60,7 +54,7 @@
       font_size: root.height * 0.15
       text: root.letter_a
       bold: "true"
-      color: 0, 0, 1, 1
+      color: 0, 142/255, 1, 1
       pos: root.width / 2 - self.width, root.height / 2 + self.height
 
 
@@ -69,7 +63,7 @@
       font_size: root.height * 0.15
       text: root.letter_b
       bold: "true"
-      color: 0, 1, 0, 1
+      color: 0, 142/255, 1, 1
       pos: root.width / 2, root.height / 2 + self.height
 
 
@@ -82,21 +76,28 @@
       color: app.main_color
       pos: root.width / 2 - self.width / 2, root.height / 2 + self.height
     
-    Label:
-      id: lab4
-      text: "20 0 0"
-      font_size: 20
-      color: app.main_color
-      bold: "true"
-      padding: ('10dp', '5dp', '10dp', '10dp')
+    BoxLayout:
+      id: box_count
       pos: root.width / 2 - self.width /2, root.height - self.height - root.ids.back_menu.height
-      size: self.texture_size
-      # canvas.before:
-      #   Color:
-      #     rgba: app.main_color
-      #   Rectangle:
-      #     pos: self.pos
-      #     size: self.size
+      size: root.width * .2, root.height * .1
+
+      CountLabel:
+        text: root.cards_counter
+        color: 0, 138/255, 1, 1
+        underline: root.underline_cards_counter
+
+
+      CountLabel:
+        text: root.repeat_cards_counter
+        color: 1, 0, 0, .7
+        underline: root.underline_new_cards_counter
+
+
+      CountLabel:
+        text: root.new_cards_counter
+        color: 0, 210/255, 72/255, 1
+        underline: root.underline_repeat_cards_counter
+
     
     Image:
       id: picture
@@ -112,46 +113,43 @@
     
     BoxLayout:
       id: box_level
-      # level: level.__self__
-      # spacing: '8dp'
-      size: root.width * 0.8, root.height * 0.05
+      size: root.width, root.height * 0.05
       pos: root.width / 2 - self.width / 2, root.height - root.height * 0.9
 
       Button:
+        size_hint: .25,1
         text: "СНОВА"
         font_size: 35
         bold: "true"
-        color: 23/255, 185/255, 223/255, 1
+        color: 1, 0, 0, .7
         background_color: 1, 1, 1, 1
-        size_hint: .25,1
         background_normal: ""
         on_press: root.rating_word(self.text)
       Button:
-        text: "ЛЕГКО"
-        font_size: 35
-        bold: "true"
-        color: 69/255, 179/255, 113/255, 1
-        background_color: 1, 1, 1, 1
-        size_hint: .25,1
-        background_normal: ""
-        on_press: root.rating_word(self.text)
-
-      Button:
-        text: "ХОРОШО"
-        font_size: 35
-        bold: "true"
-        color: 1, 165/255, 0, 1
-        background_color: 1, 1, 1, 1
         size_hint: .3,1
-        background_normal: ""
-        on_press: root.rating_word(self.text)
-
-      Button:
         text: "СЛОЖНО"
         font_size: 35
         bold: "true"
-        color: 235/255, 99/255, 71/255, 1
+        color: 120/255, 120/255, 120/255, 1
         background_color: 1, 1, 1, 1
+        background_normal: ""
+        on_press: root.rating_word(self.text)
+      Button:
         size_hint: .3,1
+        text: "ХОРОШО"
+        font_size: 35
+        bold: "true"
+        color: 0, 210/255, 72/255, 1
+        background_color: 1, 1, 1, 1
+        background_normal: ""
+        on_press: root.rating_word(self.text)
+
+      Button:
+        size_hint: .25,1
+        font_size: 35
+        text: "ЛЕГКО"
+        bold: "true"
+        color: 0, 142/255, 1, 1
+        background_color: 1, 1, 1, 1
         background_normal: ""
         on_press: root.rating_word(self.text)

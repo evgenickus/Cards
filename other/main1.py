@@ -10,8 +10,10 @@ class MainWidget(Screen):
   card_letter_list = ['Ц', 'Х', 'Ф', 'У', 'Т', 'С', 'Р', 'П', 'О', 'Н', 'М', 'Л', 'К', 'И', 'З', 'Ж', 'Е', 'Д', 'Г', 'В', 'Б', 'А']
   words_list = ["АНАНАС", "АРБУЗ", "АКВАЛАНГ", "АРГОН", "БРАГА", "БОБЁР", "БИВАК", "БЕГУН", "ВРАТА", "ВОБЛА", "ВОВА", "ВАГИНА", "ГРАВИЦАПА"]
 
-  letter_a = StringProperty(card_letter_list[21])
-  letter_b = StringProperty(card_letter_list[21])
+  letter_num_a = 21
+  letter_num_b = 21
+  letter_a = StringProperty(card_letter_list[letter_num_a])
+  letter_b = StringProperty(card_letter_list[letter_num_b])
   word = StringProperty('')
   picture_link = StringProperty("")
 
@@ -31,38 +33,38 @@ class MainWidget(Screen):
         tempory_word_list.append(word)
     for word in tempory_word_list:
       if self.letter_b == word[2]:
-        self.word = word
+        self.word = f"[color=0000ff][u]{word[0]}[/u][/color]{word[1].lower()}[color=00ff00][u]{word[2]}[/u][/color]{word[3:].lower()}"
         self.picture_link = f"../images/{str(self.words_list.index(word)+1)}.jpg"
+    
 
   def reset(self):
     self.ids.main_widget.add_widget(self.ids.lab1)
     self.ids.main_widget.add_widget(self.ids.lab2)
+    self.ids.main_widget.add_widget(self.ids.but_open)
     self.ids.main_widget.remove_widget(self.ids.box_level)
-
     self.word = ""
     self.picture_link = ""
 
-
+  def count_index_a_b(self):
+    if self.letter_num_b > 0:
+      self.letter_num_b -= 1
+    else:
+      self.letter_num_b = 21
+      self.letter_num_a -= 1
+    if self.letter_a == 0:
+      self.letter_a = 21
 
   def open_card(self):
     self.ids.main_widget.remove_widget(self.ids.lab1)
     self.ids.main_widget.remove_widget(self.ids.lab2)
+    self.ids.main_widget.remove_widget(self.ids.but_open)
     self.ids.main_widget.add_widget(self.ids.box_level)
-    # self.ids.main_widget.remove_widget(self.ids.but_open)
-    # self.ids.main_widget.add_widget(self.ids.picture)
-    # self.ids.main_widget.add_widget(self.ids.level.ids.again)
-
-    # self.add_widget(self.ids.level)
     self.find_word()
-    # else:
-    #   self.menu_open = "ОТКРЫТЬ"
-    #   self.word = ""
-    #   self.picture_link = ""
-    #   self.remove_widget(self.ids.picture)
-    #   self.add_widget(self.ids.lab1)
-    #   self.add_widget(self.ids.lab2)
-    #   if self.traning_on:
-    #     self.remove_widget(self.ids.level)
+    self.count_index_a_b()
+    self.letter_a = self.card_letter_list[self.letter_num_a]
+    self.letter_b = self.card_letter_list[self.letter_num_b]
+
+  
 
 
 

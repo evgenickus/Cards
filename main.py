@@ -1,47 +1,48 @@
-from kivy.config import Config
-Config.set('graphics', 'width', 450)
-Config.set('graphics', 'height', 750)
-
 from kivy.app import App
-from kivy.uix.widget import Widget
-from kivy.uix.relativelayout import RelativeLayout
-from kivy.properties import StringProperty, ObjectProperty
-from random import randint
-import crud
+from kivy.properties import ColorProperty, StringProperty, ObjectProperty, NumericProperty
+from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 
 
-class MainWidget(Widget):
-  # rev_ls = card_letter_list[::-1]
+class Menu(Screen):
+  pass
+
+class New(Screen):
+  pass
+
+class MainWidget(Screen):
   card_letter_list = ['Ц', 'Х', 'Ф', 'У', 'Т', 'С', 'Р', 'П', 'О', 'Н', 'М', 'Л', 'К', 'И', 'З', 'Ж', 'Е', 'Д', 'Г', 'В', 'Б', 'А']
-  words_list = ["АНАНАС", "АРБУЗ", "АКВАЛАНГ", "АРГОН", "БРАГА", "БОБЁР", "БИВАК", "БЕГУН", "ВРАТА", "ВОБЛА", "ВОВА", "ВАГИНА", "ГРАВИЦАПА"]
 
-  letter_a = StringProperty(card_letter_list[21])
-  letter_b = StringProperty(card_letter_list[21])
-  word = StringProperty('')
-  clear_card = False
-  num_a = ObjectProperty(21)
-  num_b = ObjectProperty(21)
-  bar_value = ObjectProperty(0)
-  menu_open = StringProperty("ОТКРЫТЬ")
-  menu_traning = StringProperty("ТРЕНИРОВКА")
-  picture_link = StringProperty("")
-  traning_on = False
-  count = 0
+  words_list = ['АНАНАС', 'АРБУЗ', 'АКВАРИУМ', 'АНГЕЛ', 'АНДРОИД', 'АПЕЛЬСИН', 'АДЖИКА', 'АБЗАЦ', 'АДИДАС', 'АРКА', 'АЛЛЕЯ', 'АЛМАЗ', 'АРНОЛЬД', 'АЛОЭ', 'АМПЛИТУДА', 'АБРИКОС', 'АИСТ', 'АПТЕКА', 'АКУЛА', 'АЛФАВИТ', 'АРХЫЗ', 'АНЧОУС', 'БИАТЛОН', 'БАБУШКА', 'БИВЕНЬ', 'БЕГЕМОТ', 'БАДМИНТОН', 'БРЕЛОК', 'БИЖУТЕРИЯ', 'БИЗОН', 'БРИТВА', 'БУКВАРЬ', 'БИЛЕТ', 'БУМЕРАНГ', 'БАНАН', 'БРОВИ', 'БИП', 'БОРОДА', 'БАССЕЙН', 'БАТОН', 'БОУЛИНГ', 'БИФШТЕКС', 'БАХИЛЫ', 'БОЧКА']
+
   letter_num_a = 21
   letter_num_b = 21
+  letter_a = StringProperty(card_letter_list[letter_num_a])
+  letter_b = StringProperty(card_letter_list[letter_num_b])
+  underline_cards_counter = ObjectProperty(False)
+  underline_new_cards_counter = ObjectProperty(False)
+  underline_repeat_cards_counter = ObjectProperty(False)
+
+  word = StringProperty("")
+  word_len = 0
+  cards_counter = StringProperty("20")
+  new_cards_counter = StringProperty("0")
+  repeat_cards_counter = StringProperty("0")
+
+  picture_link = StringProperty("")
 
 
   def __init__(self, **kwargs):
     super(MainWidget, self).__init__(**kwargs)
-    self.remove_widget(self.ids.level)
-    self.remove_widget(self.ids.picture)
+    self.ids.main_widget.remove_widget(self.ids.box_level)
+    self.ids.box_letter.remove_widget(self.ids.lab3)
+    self.ids.box_letter.remove_widget(self.ids.picture)
 
-  def slide_A(self, value):
-    self.letter_a = self.card_letter_list[int(value)]
 
-  def slide_B(self, value):
-    self.letter_b = self.card_letter_list[int(value)]
-
+  def rating_word(self, rating):
+    self.reset()
+    # for i in self.ids:
+    #   print(i, self.ids[i])
+    # print(rating)
 
   def find_word(self):
     tempory_word_list = []
@@ -50,55 +51,25 @@ class MainWidget(Widget):
         tempory_word_list.append(word)
     for word in tempory_word_list:
       if self.letter_b == word[2]:
-        self.word = word
+        self.word_len = len(word)
+        self.word = f"[color=008eff][u]{word[0]}[/u][/color]{word[1].lower()}[color=008eff][u]{word[2]}[/u][/color]{word[3:].lower()}"
         self.picture_link = f"images/{str(self.words_list.index(word)+1)}.jpg"
-        
-  def open_card(self):
-    if self.menu_open == "ОТКРЫТЬ":
-      self.menu_open = "ЗАКРЫТЬ"
-      self.remove_widget(self.ids.lab1)
-      self.remove_widget(self.ids.lab2)
-      if self.traning_on:
-        self.add_widget(self.ids.level)
-      self.find_word()
-      self.add_widget(self.ids.picture)
-    else:
-      self.menu_open = "ОТКРЫТЬ"
-      self.word = ""
-      self.picture_link = ""
-      self.remove_widget(self.ids.picture)
-      self.add_widget(self.ids.lab1)
-      self.add_widget(self.ids.lab2)
-      if self.traning_on:
-        self.remove_widget(self.ids.level)
-      
 
-  # def start_traning(self):
-  #   self.traning_on = True
-  #   random_num_a = randint(0, 21)
-  #   random_num_b = randint(0, 21)
-  #   self.letter_a = self.card_letter_list[random_num_a]
-  #   self.letter_b = self.card_letter_list[random_num_b]
-  #   self.num_a = random_num_a
-  #   self.num_b = random_num_b
-  #   self.remove_widget(self.ids.sld_1)
-  #   self.remove_widget(self.ids.sld_2)
-  #   if self.count < 10:
-  #     self.count += 1
-  #     self.bar_value += 1
-  #   else:
-  #     self.count = 0
-  #     self.bar_value = 0
-  #   self.menu_traning = f" {self.count} / 10"
-  #   if self.menu_open == "ЗАКРЫТЬ":
-  #     self.word = ""
-  #     self.picture_link = ""
-  #     self.add_widget(self.ids.lab1)
-  #     self.add_widget(self.ids.lab2)
-  #     self.remove_widget(self.ids.level)
-  #     self.remove_widget(self.ids.picture)
-  #     self.menu_open = "ОТКРЫТЬ"
 
+  def reset(self):
+    self.ids.box_letter.add_widget(self.ids.lab1)
+    self.ids.box_letter.add_widget(self.ids.lab2)
+    self.ids.box_letter.remove_widget(self.ids.lab3)
+
+    self.ids.main_widget.add_widget(self.ids.but_open)
+    self.ids.main_widget.remove_widget(self.ids.box_level)
+    self.word = ""
+    self.picture_link = ""
+
+  def count_cards_counter(self):
+    count = int(self.cards_counter) - 1
+    self.cards_counter = str(count)
+    self.underline_cards_counter = True
 
   def count_index_a_b(self):
     if self.letter_num_b > 0:
@@ -108,87 +79,33 @@ class MainWidget(Widget):
       self.letter_num_a -= 1
     if self.letter_a == 0:
       self.letter_a = 21
-  
-  def counter(self):
-    if self.count < 21:
-      self.count += 1
-      self.bar_value += 1
-    else:
-      self.count = 0
-      self.bar_value = 0
-    self.menu_traning = f" {self.count} / 22"
 
+  def open_card(self):
+    self.ids.box_letter.remove_widget(self.ids.lab1)
+    self.ids.box_letter.remove_widget(self.ids.lab2)
+    self.ids.box_letter.add_widget(self.ids.lab3)
+    self.ids.main_widget.remove_widget(self.ids.but_open)
+    self.ids.main_widget.add_widget(self.ids.box_level)
 
-  def start_traning(self):
-    self.traning_on = True
-    self.letter_a = self.card_letter_list[self.letter_num_a]
-    self.letter_b = self.card_letter_list[self.letter_num_b]
+    self.find_word()
     self.count_index_a_b()
-    self.counter()
-    self.remove_widget(self.ids.sld_1)
-    self.remove_widget(self.ids.sld_2)
-    if self.menu_open == "ЗАКРЫТЬ":
-      self.word = ""
-      self.picture_link = ""
-      self.add_widget(self.ids.lab1)
-      self.add_widget(self.ids.lab2)
-      self.remove_widget(self.ids.level)
-      self.remove_widget(self.ids.picture)
-      self.menu_open = "ОТКРЫТЬ"
-    
-  
-  def rating_word(self, lelel):
-    crud.add_task(self.word, lelel)
-    self.remove_widget(self.ids.level)
-
-  
-
-  # def reset(self):
-  #   if self.traning_on and self.menu_open == "ЗАКРЫТЬ":
-  #     self.menu_open = "ОТКРЫТЬ"
-  #     self.word = ""
-  #     self.picture_link = ""
-  #     self.add_widget(self.ids.lab1)
-  #     self.add_widget(self.ids.lab2)
-  #   if self.traning_on:
-  #     self.add_widget(self.ids.sld_1)
-  #     self.add_widget(self.ids.sld_2)
-
-  #   self.bar_value = 0
-  #   self.traning_on = False
-  #   self.menu_traning = "ТРЕНИРОВКА"
-  #   self.count = 0
-  #   self.remove_widget(self.ids.level)
-  #   self.remove_widget(self.ids.picture)
-  def reset(self):
-    self.letter_num_a = 21
-    self.letter_num_b = 21
+    self.count_cards_counter()
     self.letter_a = self.card_letter_list[self.letter_num_a]
     self.letter_b = self.card_letter_list[self.letter_num_b]
 
-    if self.traning_on and self.menu_open == "ЗАКРЫТЬ":
-      self.menu_open = "ОТКРЫТЬ"
-      self.word = ""
-      self.picture_link = ""
-      self.add_widget(self.ids.lab1)
-      self.add_widget(self.ids.lab2)
-    if self.traning_on:
-      self.add_widget(self.ids.sld_1)
-      self.add_widget(self.ids.sld_2)
-
-    self.bar_value = 0
-    self.traning_on = False
-    self.menu_traning = "ТРЕНИРОВКА"
-    self.count = 0
-    self.remove_widget(self.ids.level)
-    self.remove_widget(self.ids.picture)
+  
 
 
 
-class CardsApp(App):
+class Cards(App):
+  main_color = ColorProperty([255/255, 122/255, 0, 1])
   def build(self):
-    return MainWidget()
+    sm = ScreenManager(transition=FadeTransition())
+    sm.add_widget(Menu(name="menu"))
+    sm.add_widget(MainWidget(name="main"))
+    sm.add_widget(New(name="new"))
 
 
-if __name__ == "__main__":
-  CardsApp().run()
+    return sm
+
+Cards().run()

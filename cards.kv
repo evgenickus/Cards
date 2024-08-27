@@ -1,161 +1,166 @@
-#:kivy 2.0.0
-<MainWidget>:
-  canvas.before:
-    Color:
-      rgba: 255/255, 122/255, 0, 1#23/255, 185/255, 223/255, 1
-    Rectangle:
-      pos: 0 + (root.width - root.width * 0.96), 0 + (root.height - root.height * 0.96)
-      size: root.width * 0.92, root.height * 0.92
-    Color:
-      rgba: 1, 1, 1, 1
-    Rectangle:
-      pos: 0 + (root.width - root.width * 0.90), 0 + (root.height - root.height * 0.92)
-      size: root.width * 0.80, root.height * 0.84
-  Label:
-    id: lab1
-    text: root.letter_a
-    font_size: root.height * 0.15
-    bold: "true"
-    color: 255/255, 122/255, 0/255, 1
-    pos: root.width / 2 - 220 , root.height / 2 + 250
+#:kivy 2.2.0
+<MenuButton@Button>:
+  padding: ('10dp', '5dp', '10dp', '5dp')
+  size: self.texture_size
+  font_size: 90
+  bold: "true"
+  color: app.main_color
+  background_color: 1, 1, 1, 0
+  background_normal: ""
+<CountLabel@Label>:
+  font_size: 60
+  bold: "true"
+  pos: self.pos
 
-  Label:
-    id: lab2
-    text: root.letter_b
-    font_size: root.height * 0.15
-    bold: "true"
-    color: 255/255, 122/255, 0/255, 1
-    pos: root.width / 2 + 110, root.height / 2 + 250
-
-  Label:
-    id: lab3
-    text: root.word
-    font_size: root.height * 0.1 - len(root.word) * 4
-    bold: "true"
-    color: 255/255, 122/255, 0/255, 1
-    pos: root.width / 2 - 50, root.height / 2 + 250
-  
-  Image:
-    id: picture
-    source: root.picture_link
-    pos: root.width / 2 - self.width / 2, root.height / 2 - self.height
-    size: '200dp','200dp'
-
-  
+<Menu>:
   BoxLayout:
-    spacing: '8dp'
-    pos: root.width / 2 - root.width * 0.375, 0 + (root.height - root.height * 0.9)
-    size: root.width * 0.75, root.height * 0.05
-    Button:
-      text: root.menu_traning
-      font_size: 35
-      bold: "true"
-      background_color: 255/255, 122/255, 0, 1
-      background_normal: ""
-      on_press: root.start_traning()
-    Button:
-      text: root.menu_open
-      font_size: 35
-      bold: "true"
-      background_color: 255/255, 122/255, 0, 1
-      background_normal: ""
-      on_press: root.open_card()
-    Button:
-      text: 'СБРОС'
-      font_size: 35
-      bold: "true"
-      background_color: 255/255, 122/255, 0, 1
-      background_normal: ""
-      on_press: root.reset()
-  BoxLayout:
-    id: level
-    spacing: '8dp'
-    pos: root.width / 2 - root.width * 0.375, 0 + (root.height - root.height * 0.825)
-    size: root.width * 0.75, root.height * 0.05
-    # pos: root.width / 2 - root.width * 0.375, 0 + (root.height - root.height * 0.835)
-    # size: root.width * 0.75, root.height * 0.05
-    Button:
-      text: "СНОВА"
-      font_size: 35
-      bold: "true"
-      background_color: 23/255, 185/255, 223/255, 1
-      background_normal: ""
-      on_press: root.rating_word(self.text)
-    Button:
-      text: "ЛЕГКО"
-      font_size: 35
-      bold: "true"
-      background_color: 69/255, 179/255, 113/255, 1
-      background_normal: ""
-      on_press: root.rating_word(self.text)
-
-    Button:
-      text: "ХОРОШО"
-      font_size: 35
-      bold: "true"
-      background_color: 1, 165/255, 0, 1
-      background_normal: ""
-      on_press: root.rating_word(self.text)
-
-    Button:
-      text: "СЛОЖНО"
-      font_size: 35
-      bold: "true"
-      background_color: 235/255, 99/255, 71/255, 1
-      background_normal: ""
-      on_press: root.rating_word(self.text)
-
-
-  # Button:
-  #   background_normal: "red_pushed.png"
-  #   background_down: "red_pushed-2.png"
-
-
-
-
-  Slider:
-    id: sld_1
-    min: 0
-    max: 21
-    value: root.num_a
     orientation: "vertical"
-    pos: 0 + (root.width - root.width * 0.935), 0 + (root.height - root.height * 0.835)
-    size: root.width * 0.2, root.height * 0.4
-    step: 1
-    value_track: "true"
-    value_track_color: 255/255, 122/255, 0, 1#23/255, 185/255, 223/255, 1
-    cursor_image: "images/slider1.png"
-    on_value: root.slide_A(self.value)
-
-  Slider:
-    id: sld_2
-    min: 0
-    max: 21
-    value: root.num_b
-    orientation: "vertical"
-    pos: root.width - root.width * 0.265, 0 + (root.height - root.height * 0.835)
-    size: root.width * 0.2, root.height * 0.4
-    step: 1
-    value_track: "true"
-    value_track_color: 255/255, 122/255, 0, 1#23/255, 185/255, 223/255, 1
-    cursor_image: "images/slider1.png"
-    on_value: root.slide_B(self.value)
-
-
-  ProgressBar:
-    pos: 0 + root.width * 0.05, root.height - root.height * 0.05
-    size: root.width * 0.9, root.height * 0.05
-    value: root.bar_value
-    max: 10
     canvas:
-      BorderImage:
-        border: (1, 1, 1, 1)
-        pos: self.x, self.center_y - 2
-        size: self.width, 4
-        source: 'images/white.png'
-      BorderImage:
-        border: [int(min(self.width * (self.value / float(self.max)) if self.max else 1, 6))] * 4
-        pos: self.x, self.center_y - 2
-        size: self.width * (self.value / float(self.max)) if self.max else 4, 4
-        source: 'images/background.png'
-  
+      Rectangle:
+        size: root.size
+        pos: root.pos
+    MenuButton:
+      text: "НАЧАТЬ ТРЕНИРОВКУ"
+      on_press: root.manager.current = "main"
+      size_hint: 1, .1
+    Image:
+      source: "images/cover.png"
+      allow_stretch: True
+      size_hint: 1, .9
+      allow_stretch: True
+      keep_ratio: False
+
+<MainWidget>:
+  BoxLayout:
+    box_level: box_level.__self__
+    box_count: box_count.__self__
+    id: main_widget
+    orientation: "vertical"
+    canvas.before:
+      Color:
+        rgba: 1, 1, 1, 1
+      Rectangle:
+        size: root.size
+    BoxLayout:
+      size_hint: 1, .1   # 10%
+      MenuButton:
+        id: back_menu
+        size_hint: .7, 1
+        text_size: self.size
+        halign: 'left'
+        valign: 'middle'
+        text: "МЕНЮ"
+        on_press: root.manager.current = "menu"
+        # canvas.before:
+        #   Color:
+        #     rgba: 0, 1, 1, 1
+        #   Rectangle:
+        #     size: self.size
+        #     pos: self.pos
+      BoxLayout:
+        id: box_count
+        size_hint: .3, 1
+        # canvas.before:
+        #   Color:
+        #     rgba: 1, 0, 1, 1
+        #   Rectangle:
+        #     size: self.size
+        #     pos: self.pos
+
+        CountLabel:
+          text: root.cards_counter
+          color: 0, 138/255, 1, 1
+          underline: root.underline_cards_counter
+        CountLabel:
+          text: root.repeat_cards_counter
+          color: 1, 0, 0, .7
+          underline: root.underline_new_cards_counter
+        CountLabel:
+          text: root.new_cards_counter
+          color: 0, 210/255, 72/255, 1
+          underline: root.underline_repeat_cards_counter
+    BoxLayout: 
+      id: box_letter
+      size_hint: 1, .7  # 20%
+      Label:
+        id: lab1
+        padding: ('0dp', '0dp', '40dp', '0dp')
+        font_size: root.height * 0.15
+        text: root.letter_a
+        text_size: self.size
+        halign: "right"
+        valign: 'middle'
+        bold: "true"
+        color: 0, 142/255, 1, 1
+        canvas.before:
+          Color:
+            rgba: 1, 0, 1, 1
+          Rectangle:
+            size: self.size
+            pos: self.pos
+      Label:
+        id: lab2
+        padding: ('40dp', '0dp', '0dp', '0dp')
+        font_size: root.height * 0.15
+        text: root.letter_b
+        text_size: self.size
+        halign: "left"
+        valign: 'middle'
+        color: 0, 142/255, 1, 1
+        bold: "true"
+        canvas.before:
+          Color:
+            rgba: 0, 1, 1, 1
+          Rectangle:
+            size: self.size
+            pos: self.pos
+      Label:
+        id: lab3
+        markup: True 
+        font_size: 100 - root.word_len
+        text: root.word
+        bold: "true"
+        color: app.main_color
+        # canvas.before:
+        #   Color:
+        #     rgba: 1, 0, 1, 1
+        #   Rectangle:
+        #     size: self.size
+        #     pos: self.pos
+
+      Image:
+        id: picture
+        # size_hint: 1, .5  # 50%
+        source: root.picture_link
+    MenuButton:
+      id: but_open
+      size_hint: 1, .1  #10%
+      text: "ОТКРЫТЬ"
+      on_press: root.open_card()
+    BoxLayout:
+      id: box_level
+      size_hint: 1, .1 #10%
+      MenuButton:
+        size_hint: .25,1
+        text: "СНОВА"
+        font_size: 70
+        color: 1, 0, 0, .7
+        on_press: root.rating_word(self.text)
+      MenuButton:
+        size_hint: .3,1
+        text: "СЛОЖНО"
+        font_size: 70
+        color: 120/255, 120/255, 120/255, 1
+        on_press: root.rating_word(self.text)
+      MenuButton:
+        size_hint: .3,1
+        text: "ХОРОШО"
+        font_size: 70
+        color: 0, 210/255, 72/255, 1
+        on_press: root.rating_word(self.text)
+      MenuButton:
+        size_hint: .25,1
+        text: "ЛЕГКО"
+        font_size: 70
+        color: 0, 142/255, 1, 1
+        on_press: root.rating_word(self.text)

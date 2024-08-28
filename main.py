@@ -19,14 +19,14 @@ class MainWidget(Screen):
   letter_num_b = 21
   letter_a = StringProperty(card_letter_list[letter_num_a])
   letter_b = StringProperty(card_letter_list[letter_num_b])
-  underline_cards_counter = ObjectProperty(False)
+  underline_cards_counter = ObjectProperty(True)
   underline_new_cards_counter = ObjectProperty(False)
   underline_repeat_cards_counter = ObjectProperty(False)
 
   word = StringProperty("")
   word_db = str()
   word_len = 0
-  cards_counter = StringProperty("11")
+  cards_counter = StringProperty("0")
   new_cards_counter = StringProperty("0")
   repeat_cards_counter = StringProperty("0")
 
@@ -44,6 +44,8 @@ class MainWidget(Screen):
   def rating_word(self, rating):
     crud.add_task(self.word_db, rating)
     self.reset()
+    self.count_cards_counter()
+
 
 
   def find_word(self):
@@ -71,7 +73,10 @@ class MainWidget(Screen):
     self.picture_link = ""
 
   def count_cards_counter(self):
-    count = int(self.cards_counter) - 1
+    if int(self.cards_counter) > 0:
+      count = int(self.cards_counter) - 1
+    else:
+      count = '11'
     self.cards_counter = str(count)
     self.underline_cards_counter = True
 
@@ -85,9 +90,9 @@ class MainWidget(Screen):
       self.letter_a = 21
 
   def statistic(self):
-    old_words = crud.get_words()
-    self.repeat_cards_counter = str(len(old_words))
-    print(old_words)
+    self.cards_counter = "11"
+    # old_words = crud.get_words()
+    # self.repeat_cards_counter = str(len(old_words))
 
   def open_card(self):
     self.ids.box_letter.orientation = "vertical"
@@ -99,7 +104,6 @@ class MainWidget(Screen):
     self.ids.main_widget.add_widget(self.ids.box_level)
     self.find_word()
     self.count_index_a_b()
-    self.count_cards_counter()
     self.letter_a = self.card_letter_list[self.letter_num_a]
     self.letter_b = self.card_letter_list[self.letter_num_b]
 

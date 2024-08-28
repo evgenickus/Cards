@@ -51,21 +51,11 @@
         valign: 'middle'
         text: "МЕНЮ"
         on_press: root.manager.current = "menu"
-        # canvas.before:
-        #   Color:
-        #     rgba: 0, 1, 1, 1
-        #   Rectangle:
-        #     size: self.size
-        #     pos: self.pos
+
       BoxLayout:
         id: box_count
         size_hint: .3, 1
-        # canvas.before:
-        #   Color:
-        #     rgba: 1, 0, 1, 1
-        #   Rectangle:
-        #     size: self.size
-        #     pos: self.pos
+
 
         CountLabel:
           text: root.cards_counter
@@ -92,12 +82,6 @@
         valign: 'middle'
         bold: "true"
         color: 0, 142/255, 1, 1
-        canvas.before:
-          Color:
-            rgba: 1, 0, 1, 1
-          Rectangle:
-            size: self.size
-            pos: self.pos
       Label:
         id: lab2
         padding: ('40dp', '0dp', '0dp', '0dp')
@@ -108,14 +92,15 @@
         valign: 'middle'
         color: 0, 142/255, 1, 1
         bold: "true"
-        canvas.before:
-          Color:
-            rgba: 0, 1, 1, 1
-          Rectangle:
-            size: self.size
-            pos: self.pos
+        # canvas.before:
+        #   Color:
+        #     rgba: 0, 1, 1, 1
+        #   Rectangle:
+        #     size: self.size
+        #     pos: self.pos
       Label:
         id: lab3
+        size_hint: 1, .2
         markup: True 
         font_size: 100 - root.word_len
         text: root.word
@@ -130,8 +115,17 @@
 
       Image:
         id: picture
+        size_hint: 1, .8
+
         # size_hint: 1, .5  # 50%
         source: root.picture_link
+        # canvas.before:
+        #   Color:
+        #     rgba: 0, 1, 1, 1
+        #   Rectangle:
+        #     size: self.size
+        #     pos: self.pos
+
     MenuButton:
       id: but_open
       size_hint: 1, .1  #10%

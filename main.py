@@ -1,3 +1,7 @@
+from kivy.config import Config
+Config.set('graphics', 'width', 450)
+Config.set('graphics', 'height', 750)
+
 from kivy.app import App
 from kivy.properties import ColorProperty, StringProperty, ObjectProperty, NumericProperty
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
@@ -22,14 +26,11 @@ class MainWidget(Screen):
   underline_cards_counter = ObjectProperty(True)
   underline_new_cards_counter = ObjectProperty(False)
   underline_repeat_cards_counter = ObjectProperty(False)
-
   word = StringProperty("")
   word_db = str()
-  word_len = 0
   cards_counter = StringProperty("0")
   new_cards_counter = StringProperty("0")
   repeat_cards_counter = StringProperty("0")
-
   picture_link = StringProperty("")
 
 
@@ -47,7 +48,6 @@ class MainWidget(Screen):
     self.count_cards_counter()
 
 
-
   def find_word(self):
     tempory_word_list = []
     for word in self.words_list:
@@ -55,7 +55,7 @@ class MainWidget(Screen):
         tempory_word_list.append(word)
     for word in tempory_word_list:
       if self.letter_b == word[2]:
-        self.word_len = len(word)
+        self.ids.lab3.font_size = int(100 - len(word) * 2)
         self.word_db = word
         self.word = f"[color=008eff][u]{word[0]}[/u][/color]{word[1].lower()}[color=008eff][u]{word[2]}[/u][/color]{word[3:].lower()}"
         self.picture_link = f"images/{str(self.words_list.index(word)+1)}.jpg"
@@ -78,7 +78,7 @@ class MainWidget(Screen):
     else:
       count = '11'
     self.cards_counter = str(count)
-    self.underline_cards_counter = True
+    # self.underline_cards_counter = True
 
   def count_index_a_b(self):
     if self.letter_num_b > 0:

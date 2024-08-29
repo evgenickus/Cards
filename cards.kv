@@ -2,13 +2,13 @@
 <MenuButton@Button>:
   padding: ('10dp', '5dp', '10dp', '5dp')
   size: self.texture_size
-  font_size: 90
+  font_size: 40#90
   bold: "true"
   color: app.main_color
   background_color: 1, 1, 1, 0
   background_normal: ""
 <CountLabel@Label>:
-  font_size: 60
+  font_size: 30#60
   bold: "true"
   pos: self.pos
 
@@ -41,8 +41,8 @@
         rgba: 1, 1, 1, 1
       Rectangle:
         size: root.size
-    BoxLayout:
-      size_hint: 1, .1   # 10%
+    BoxLayout:    # 10%
+      size_hint: 1, .1
       MenuButton:
         id: back_menu
         size_hint: .7, 1
@@ -69,13 +69,13 @@
           text: root.new_cards_counter
           color: 0, 210/255, 72/255, 1
           underline: root.underline_repeat_cards_counter
-    BoxLayout: 
+    BoxLayout: # 70%
       id: box_letter
-      size_hint: 1, .7  # 20%
+      size_hint: 1, .70
       Label:
         id: lab1
         padding: ('0dp', '0dp', '40dp', '0dp')
-        font_size: root.height * 0.15
+        font_size: 150
         text: root.letter_a
         text_size: self.size
         halign: "right"
@@ -85,7 +85,7 @@
       Label:
         id: lab2
         padding: ('40dp', '0dp', '0dp', '0dp')
-        font_size: root.height * 0.15
+        font_size: 150
         text: root.letter_b
         text_size: self.size
         halign: "left"
@@ -102,59 +102,50 @@
         id: lab3
         size_hint: 1, .2
         markup: True 
-        font_size: 100 - root.word_len
+        font_size: 100
         text: root.word
         bold: "true"
         color: app.main_color
-        # canvas.before:
-        #   Color:
-        #     rgba: 1, 0, 1, 1
-        #   Rectangle:
-        #     size: self.size
-        #     pos: self.pos
 
       Image:
         id: picture
-        size_hint: 1, .8
-
-        # size_hint: 1, .5  # 50%
+        size_hint: .5, .8
+        # size: 300, 300
+        pos_hint: {'right': .75}
         source: root.picture_link
-        # canvas.before:
-        #   Color:
-        #     rgba: 0, 1, 1, 1
-        #   Rectangle:
-        #     size: self.size
-        #     pos: self.pos
+        allow_stretch: True
+        # keep_ratio: False
+  
 
-    MenuButton:
+    MenuButton: #10%
       id: but_open
       size_hint: 1, .1  #10%
       text: "ОТКРЫТЬ"
       on_press: root.open_card()
-    BoxLayout:
+    BoxLayout: #10%
       id: box_level
       size_hint: 1, .1 #10%
       MenuButton:
         size_hint: .25,1
         text: "СНОВА"
-        font_size: 70
+        font_size: 25#60
         color: 1, 0, 0, .7
         on_press: root.rating_word(self.text)
       MenuButton:
         size_hint: .3,1
         text: "СЛОЖНО"
-        font_size: 70
+        font_size: 25#60
         color: 120/255, 120/255, 120/255, 1
         on_press: root.rating_word(self.text)
       MenuButton:
         size_hint: .3,1
         text: "ХОРОШО"
-        font_size: 70
+        font_size: 25#60
         color: 0, 210/255, 72/255, 1
         on_press: root.rating_word(self.text)
       MenuButton:
         size_hint: .25,1
         text: "ЛЕГКО"
-        font_size: 70
+        font_size: 25#60
         color: 0, 142/255, 1, 1
         on_press: root.rating_word(self.text)

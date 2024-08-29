@@ -32,6 +32,9 @@ class MainWidget(Screen):
   new_cards_counter = StringProperty("0")
   repeat_cards_counter = StringProperty("0")
   picture_link = StringProperty("")
+  active_user = "default_user"
+  rounds = int()
+  step = int()
 
 
   def __init__(self, **kwargs):
@@ -40,12 +43,28 @@ class MainWidget(Screen):
     self.ids.main_widget.remove_widget(self.ids.box_level)
     self.ids.box_letter.remove_widget(self.ids.lab3)
     self.ids.box_letter.remove_widget(self.ids.picture)
+    self.ids.main_widget.remove_widget(self.ids.message_box)
+
+    self.start_training()
+
+  def start_training(self):
+    user_result = crud.find_user("default_user")
+    self.rounds, self.step = user_result[0][1], user_result[0][2]
+    print(self.rounds, self.step)
 
 
   def rating_word(self, rating):
     crud.add_task(self.word_db, rating)
     self.reset()
     self.count_cards_counter()
+
+  def end_of_round(self):
+    self.ids.box_letter.remove_widget(self.ids.lab1)
+    self.ids.box_letter.remove_widget(self.ids.lab2)
+    self.ids.box_letter.remove_widget(self.ids.lab3)
+    self.ids.main_widget.remove_widget(self.ids.box_level)
+    self.ids.box_letter.remove_widget(self.ids.picture)
+    self.ids.main_widget.add_widget(self.ids.message_box)
 
 
   def find_word(self):
@@ -73,7 +92,7 @@ class MainWidget(Screen):
     self.picture_link = ""
 
   def count_cards_counter(self):
-    if int(self.cards_counter) > 0:
+    if int(self.cards_counter) > 1:
       count = int(self.cards_counter) - 1
     else:
       count = '11'
@@ -106,9 +125,12 @@ class MainWidget(Screen):
     self.count_index_a_b()
     self.letter_a = self.card_letter_list[self.letter_num_a]
     self.letter_b = self.card_letter_list[self.letter_num_b]
-
-  
-
+    self.step += 1
+    if self.step == 11:
+      self.rounds += 1
+      # self.end_of_round()
+      self.step = 0
+    crud.save_progress(self.active_user, self.rounds, self.step)
 
 
 class Cards(App):

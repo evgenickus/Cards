@@ -1,6 +1,6 @@
 #:kivy 2.2.0
 <MenuButton@Button>:
-  padding: ('10dp', '5dp', '10dp', '5dp')
+  # padding: ('10dp', '5dp', '10dp', '5dp')
   size: self.texture_size
   font_size: 40#90
   bold: "true"
@@ -23,17 +23,20 @@
       text: "НАЧАТЬ ТРЕНИРОВКУ"
       on_press: root.manager.current = "main"
       size_hint: 1, .1
+
     Image:
       source: "images/cover.png"
       allow_stretch: True
-      size_hint: 1, .9
-      allow_stretch: True
-      keep_ratio: False
+      size_hint: .8, .9
+      pos_hint: {'right': .9}
+      # allow_stretch: True
+      # keep_ratio: False
 
 <MainWidget>:
   BoxLayout:
     box_level: box_level.__self__
     box_count: box_count.__self__
+    message_box: message_box.__self__
     id: main_widget
     orientation: "vertical"
     canvas.before:
@@ -41,10 +44,11 @@
         rgba: 1, 1, 1, 1
       Rectangle:
         size: root.size
-    BoxLayout:    # 10%
-      size_hint: 1, .1
+    BoxLayout:    # 9%
+      size_hint: 1, .09
       MenuButton:
         id: back_menu
+        padding: ('10dp', '0dp', '0dp', '0dp')
         size_hint: .7, 1
         text_size: self.size
         halign: 'left'
@@ -69,9 +73,9 @@
           text: root.new_cards_counter
           color: 0, 210/255, 72/255, 1
           underline: root.underline_repeat_cards_counter
-    BoxLayout: # 70%
+    BoxLayout: # 71%
       id: box_letter
-      size_hint: 1, .70
+      size_hint: 1, .71
       Label:
         id: lab1
         padding: ('0dp', '0dp', '40dp', '0dp')
@@ -149,3 +153,27 @@
         font_size: 25#60
         color: 0, 142/255, 1, 1
         on_press: root.rating_word(self.text)
+    BoxLayout: # 100%
+      orientation: 'vertical'
+      id: message_box
+      size_hint: 1, .3
+
+      Label:
+        text:'повторено карточек: 11'
+        color: app.main_color
+        size_hint: 1, .1
+      Label:
+        text:'изучено карточек: 212'
+        color: app.main_color
+
+        size_hint: 1, .1
+      Label:
+        text:'требуется повторить 117'
+        color: app.main_color
+
+        size_hint: 1, .1
+      Label:
+        text:'забыто карточек: 27'
+        color: app.main_color
+
+        size_hint: 1, .1

@@ -12,12 +12,17 @@ def get_words():
 
 def create_default_player():
   current_time = datetime.now()
-  cur.execute(f"INSERT INTO player_progress VALUES('default_player', '0', '0', '{current_time}');")
+  cur.execute(f"INSERT INTO player_progress VALUES('default_user', '0', '0', '{current_time}');")
   con.commit()
 
-def find_player(name):
+def find_user(name):
   cur.execute(f"SELECT * FROM player_progress WHERE name == '{name}'")
   return cur.fetchall()
 
-if find_player("default_player") == []:
+def save_progress(name, rounds, step):
+  current_time = datetime.now()
+  cur.execute(f"UPDATE player_progress SET round = '{rounds}', step = '{step}', time = '{current_time}' WHERE name == '{name}'")
+  return cur.fetchall()
+
+if find_user("default_user") == []:
   create_default_player()

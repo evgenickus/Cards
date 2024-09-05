@@ -1,10 +1,12 @@
 from kivy.config import Config
-Config.set('graphics', 'width', 450)
-Config.set('graphics', 'height', 750)
+# Config.set('graphics', 'width', 450)
+# Config.set('graphics', 'height', 750)
 
 from kivy.app import App
 from kivy.properties import ColorProperty, StringProperty, ObjectProperty, NumericProperty
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
+from datetime import datetime, timedelta
+
 import crud
 
 
@@ -33,6 +35,7 @@ class MainWidget(Screen):
   repeat_cards_counter = StringProperty("0")
   picture_link = StringProperty("")
   active_user = "default_user"
+  can_next_step = False
   rounds = int()
   step = int()
 
@@ -44,19 +47,30 @@ class MainWidget(Screen):
     self.ids.box_letter.remove_widget(self.ids.lab3)
     self.ids.box_letter.remove_widget(self.ids.picture)
     self.ids.main_widget.remove_widget(self.ids.message_box)
-
     self.start_training()
+
+  def check_training_time(self, action_time):
+    action_time = datetime.fromisoformat(action_time)
+    next_time = action_time + timedelta(minutes=2)
+    self.can_next_step = datetime.now() > next_time
+    print(self.can_next_step)
+
 
   def start_training(self):
     user_result = crud.find_user("default_user")
     self.rounds, self.step = user_result[0][1], user_result[0][2]
+    last_action = user_result[0][3]
     print(self.rounds, self.step)
+    self.check_training_time(last_action)
 
 
   def rating_word(self, rating):
     crud.add_task(self.word_db, rating)
     self.reset()
-    self.count_cards_counter()
+    if self.cards_counter == '0':
+      self.cards_counter = '11'
+
+    # self.count_cards_counter()
 
   def end_of_round(self):
     self.ids.box_letter.remove_widget(self.ids.lab1)
@@ -74,7 +88,7 @@ class MainWidget(Screen):
         tempory_word_list.append(word)
     for word in tempory_word_list:
       if self.letter_b == word[2]:
-        self.ids.lab3.font_size = int(100 - len(word) * 2)
+        self.ids.lab3.font_size = int(150 - len(word) * 2)
         self.word_db = word
         self.word = f"[color=008eff][u]{word[0]}[/u][/color]{word[1].lower()}[color=008eff][u]{word[2]}[/u][/color]{word[3:].lower()}"
         self.picture_link = f"images/{str(self.words_list.index(word)+1)}.jpg"
@@ -92,7 +106,7 @@ class MainWidget(Screen):
     self.picture_link = ""
 
   def count_cards_counter(self):
-    if int(self.cards_counter) > 1:
+    if int(self.cards_counter) > 0:
       count = int(self.cards_counter) - 1
     else:
       count = '11'
@@ -114,6 +128,8 @@ class MainWidget(Screen):
     # self.repeat_cards_counter = str(len(old_words))
 
   def open_card(self):
+    self.start_training()
+    self.count_cards_counter()
     self.ids.box_letter.orientation = "vertical"
     self.ids.box_letter.remove_widget(self.ids.lab1)
     self.ids.box_letter.remove_widget(self.ids.lab2)

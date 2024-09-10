@@ -22,6 +22,8 @@ def find_user(name):
 def save_progress(name, rounds, step):
   current_time = datetime.now()
   cur.execute(f"UPDATE player_progress SET round = '{rounds}', step = '{step}', time = '{current_time}' WHERE name == '{name}'")
+  con.commit()
+
   return cur.fetchall()
 
 if find_user("default_user") == []:

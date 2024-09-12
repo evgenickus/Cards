@@ -9,12 +9,6 @@ from datetime import datetime, timedelta
 import crud
 
 
-# user_result = crud.find_user("default_user")
-# rounds, step = user_result[0][1], user_result[0][2]
-# last_action = user_result[0][3]
-# action_time = datetime.fromisoformat(last_action)
-# next_time = action_time + timedelta(minutes=2)
-# can_next_step = datetime.now() > next_time
 
 class Menu(Screen):
 
@@ -32,6 +26,14 @@ class Menu(Screen):
 
 class New(Screen):
   pass
+  # cards_counter = StringProperty("10")
+  # new_cards_counter = StringProperty("0")
+  # repeat_cards_counter = StringProperty("0")
+
+  # def __init__(self, **kw):
+  #   super(New, self).__init__(**kw)
+  #   self
+
 
 class MainWidget(Screen):
   card_letter_list = ['Ч', 'Х', 'Ф', 'У', 'Т', 'С', 'Р', 'П', 'О', 'Н', 'М', 'Л', 'К', 'И', 'З', 'Ж', 'Е', 'Д', 'Г', 'В', 'Б', 'А']
@@ -45,7 +47,7 @@ class MainWidget(Screen):
   underline_repeat_cards_counter = ObjectProperty(False)
   word = StringProperty("")
   word_db = str()
-  cards_counter = StringProperty("0")
+  cards_counter = StringProperty("10")
   new_cards_counter = StringProperty("0")
   repeat_cards_counter = StringProperty("0")
   picture_link = StringProperty("")
@@ -57,28 +59,19 @@ class MainWidget(Screen):
 
   def __init__(self, **kwargs):
     super(MainWidget, self).__init__(**kwargs)
-    self.statistic()
-    self.check_training_time()
-    print(self.can_next_step)
-    # if self.can_next_step:
+    self.read_player_results()
     self.ids.main_widget.remove_widget(self.ids.box_level)
     self.ids.box_letter.remove_widget(self.ids.lab3)
     self.ids.box_letter.remove_widget(self.ids.picture)
     self.ids.main_widget.remove_widget(self.ids.message_box)
-    # else:
-    #   self.ids.main_widget.remove_widget(self.ids.box_letter)
-    #   self.ids.main_widget.remove_widget(self.ids.box_level)
-    #   self.ids.main_widget.remove_widget(self.ids.but_open)
 
-  def check_training_time(self):
+
+  def read_player_results(self):
     user_result = crud.find_user("default_user")
     self.rounds, self.step = user_result[0][1], user_result[0][2]
     last_action = datetime.fromisoformat(user_result[0][3])
     next_time = last_action + timedelta(minutes=2)
     self.can_next_step = datetime.now() > next_time
-
-    
-
 
   def rating_word(self, rating):
     crud.add_task(self.word_db, rating)
@@ -86,14 +79,9 @@ class MainWidget(Screen):
     self.count_round()
     self.count_cards_counter()
 
-
   def end_of_round(self):
     self.manager.current = "new"
-    # self.stop_round = True
-    # self.ids.main_widget.remove_widget(self.ids.box_level)
-    # self.ids.main_widget.remove_widget(self.ids.box_letter)
-    # self.ids.main_widget.add_widget(self.ids.message_box)
-    # self.ids.main_widget.remove_widget(self.ids.but_open)
+
 
   def find_word(self):
     tempory_word_list = []
@@ -136,16 +124,11 @@ class MainWidget(Screen):
     if self.letter_a == 0:
       self.letter_a = 21
 
-  def statistic(self):
-    self.cards_counter = "10"
-    # old_words = crud.get_words()
-    # self.repeat_cards_counter = str(len(old_words))
-
   def count_round(self):
     if self.step == 10:
       self.step = 0
       self.rounds += 1
-      crud.save_progress(self.active_user, self.rounds, self.step)
+      crud.save_progress(self.active_user, self.rounds, self.step, self.cards_counter, self.new_cards_counter, self.repeat_cards_counter)
       self.end_of_round()
     else:
       self.step += 1

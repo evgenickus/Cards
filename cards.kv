@@ -32,21 +32,21 @@
         valign: 'middle'
         text: "МЕНЮ"
         on_press: root.manager.current = "menu"
-      BoxLayout:
-        id: box_count
-        size_hint: .3, 1
-        CountLabel:
-          text: "10" #root.cards_counter
-          color: 0, 138/255, 1, 1
-          # underline: root.underline_cards_counter
-        CountLabel:
-          text: "10" #root.repeat_cards_counter
-          color: 1, 0, 0, .7
-          # underline: root.underline_new_cards_counter
-        CountLabel:
-          text: "10" #root.new_cards_counter
-          color: 0, 210/255, 72/255, 1
-          # underline: root.underline_repeat_cards_counter
+      # BoxLayout:
+      #   id: box_count
+      #   size_hint: .3, 1
+      #   CountLabel:
+      #     text: root.cards_counter
+      #     color: 0, 138/255, 1, 1
+      #     # underline: root.underline_cards_counter
+      #   CountLabel:
+      #     text: root.repeat_cards_counter
+      #     color: 1, 0, 0, .7
+      #     # underline: root.underline_new_cards_counter
+      #   CountLabel:
+      #     text: root.new_cards_counter
+      #     color: 0, 210/255, 72/255, 1
+      #     # underline: root.underline_repeat_cards_counter
     BoxLayout: # 10%
       orientation: 'vertical'
       id: message_box
